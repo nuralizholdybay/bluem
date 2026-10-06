@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Bluem</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+:root{--bg:#fff;--ink:#111;--mut:#7a7a80;--pk:#FF85BD;--pks:#FFE9F3;--card:#fafafa;--ln:#eee;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141415;--ink:#f3f3f3;--mut:#9a9aa0;--pks:#2a1a22;--card:#1c1c1e;--ln:#2a2a2d}}
+:root[data-theme="dark"]{--bg:#141415;--ink:#f3f3f3;--mut:#9a9aa0;--pks:#2a1a22;--card:#1c1c1e;--ln:#2a2a2d}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Helvetica Neue",Helvetica,Arial,sans-serif}
+h1,h2,h3{font-weight:500;letter-spacing:-.045em;line-height:.95;margin:0}
+h1{font-size:clamp(44px,9vw,92px)}h2{font-size:clamp(28px,5vw,44px)}
+main{max-width:980px;margin:0 auto;padding:20px 20px 100px}
+nav{display:flex;gap:6px;justify-content:space-between;align-items:center;max-width:980px;margin:0 auto;padding:16px 20px;flex-wrap:wrap}
+nav b{font-size:22px;letter-spacing:-.05em}nav div{display:flex;gap:4px;flex-wrap:wrap}
+nav button{background:none;border:0;color:var(--mut);font:inherit;padding:6px 12px;border-radius:99px;cursor:pointer}
+nav button.on{background:var(--pks);color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--ln);border-radius:24px;padding:22px;margin:14px 0;transition:.25s}
+.btn{background:var(--pk);color:#111;border:0;border-radius:99px;padding:16px 30px;font:inherit;font-weight:500;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px #ff85bd55}.btn:disabled{opacity:.4;transform:none;box-shadow:none;cursor:not-allowed}
+.btn.g{background:none;border:1px solid var(--ln);color:var(--ink)}
+input,textarea{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--ln);border-radius:16px;padding:14px;outline:0}
+input:focus,textarea:focus{border-color:var(--pk)}
+textarea{min-height:46vh;resize:vertical;font-size:18px;line-height:1.7}
+.vinyl{width:min(380px,80vw);aspect-ratio:1;border-radius:50%;margin:20px auto;position:relative;background:radial-gradient(circle,#2a2326 0 17%,#ff9bc9 17.5% 40%,var(--pk) 41% 70%,#ff9bc9 71%);animation:sp 40s linear infinite;box-shadow:0 20px 60px #ff85bd44}
+.vinyl:after{content:"";position:absolute;inset:48%;border-radius:50%;background:var(--bg)}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hero{text-align:center;position:relative}.hero h1{position:absolute;left:0;right:0;top:6%;z-index:2;mix-blend-mode:normal}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.stat b{display:block;font-size:40px;letter-spacing:-.05em;font-weight:500}.stat span,.m{color:var(--mut);font-size:14px}
+.tag{display:inline-block;background:var(--pks);border-radius:99px;padding:3px 12px;font-size:13px;margin-right:6px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.bar{height:8px;border-radius:9px;background:var(--ln);overflow:hidden}.bar i{display:block;height:100%;background:var(--pk)}
+.err{background:#fff0f0;border-left:3px solid var(--pk);padding:10px 14px;border-radius:10px;margin:8px 0;color:#111}
+.imp{border:1px dashed var(--pk);border-radius:16px;padding:14px;margin-top:10px;white-space:pre-wrap}
+.pop{position:fixed;inset:0;display:grid;place-items:center;background:#000a;z-index:9;animation:f .3s}.pop div{background:var(--bg);padding:40px;border-radius:30px;text-align:center;animation:z .5s}
+@keyframes f{from{opacity:0}}@keyframes z{from{transform:scale(.6)}}
+svg{width:100%;height:auto}
+</style></head><body><div id="app"></div>
+<script>
+const TOPICS=["Какие серьезные изменения произошли с Вами за 3 года?","Опишите ситуацию, когда у вас было непонимание с друзьями или семьей, что вы предприняли?","С какими жизненными трудностями вы сталкивались и как вы их преодолели?","Какими тремя словами вы можете описать себя, почему?","Опишите ситуацию, когда вас просили сделать то, чего вы никогда не делали, как вы поступили и почему?","Когда вам приходилось принять важное самостоятельное решение?","Расскажите, какими своими успехами вы гордитесь и почему (вне школы)?","Что такого важного вы выучили, что поможет вам стать успешным учеником по обмену?","Расскажите про ситуацию, которая произошла за пределами школы и где всё пошло не так, как вы предполагали. Что вы сделали? Почему?","Какой приобретенный вами опыт в последние три года поможет вам в Америке?","Представьте себе, что вы в Америке, вас пригласили на вечеринку, а вам надо сидеть со своей младшей сестрой. Ваши действия?","В Америке вы будете жить в хост-семье, но не как гость, а как ее член. Что вы сделаете, чтобы стать частью вашей хост-семьи?","Часто ли вам приходится адаптироваться в новую среду, сложно ли это вам?","Было ли у вас такое, что вам давали совет, а вы его игнорировали, но потом пожалели об этом? Какие выводы вы сделали?","Чего вы ждете от США, помимо улучшения английского языка?","Твоя принимающая хост-мама приготовила еду, которую ты не любишь, с собой в школу. Что ты будешь делать?","Дружба приходит и уходит. Когда вы поняли, что вы теряете друга? Что вы почувствовали и что предпринимали? Почему так происходит?","Было ли так, что лучший друг просил вас сделать что-то, но вы не хотели? Почему?","Подростки все время заводят новых друзей и расстаются со старыми. Опишите случай, когда вам приходилось с кем-нибудь расстаться. Почему вы поступили так или иначе?","Бывали ли в вашей жизни моменты, когда вы хотели бросить ваш проект, так и не закончив? Почему?","Случалось ли в вашей жизни, что вам давали советы, вы им не следовали, а потом жалели об этом? Почему? Что вы извлекли из этого?","За последние 3 года у вас была такая ситуация, в которой вам нужен был совет? У кого вы его спросили? Что вы сделали?","За последние 3 года было ли у вас такое, что кто-то не соглашался с тем, что вам очень близко? Что вы сделали?","Если вы получите стипендию и поедете в США, то у вас там будут приёмные родители. Как вы вольётесь в коллектив?","Чувствовали ли вы себя не в своей тарелке? Что вы сделали, чтобы это исправить?","Какие жизненные уроки вы получили вне школы? Как они помогут вам стать успешным студентом по обмену?","Какую ошибку вы совершили за последние 3 года? Опишите ее. Как вы ее решили?","Опишите ситуацию, когда на вас возложили ответственность, которой вы не хотели. Что вы сделали? Почему?","Опишите случай за последние 3 года, когда кто-то изменил ваше мнение или поведение. Почему?","Чему вы научились у человека, которым восхищаетесь? Как вы воспользовались этим?","Опишите случай, когда вы поняли, что учитель или любой другой взрослый не прав. Как вы поступили?","Опишите случай, когда вы усердно пытались добиться чего-то, но не получили это. Что вы из этого извлекли?","Опишите случай, когда вам пришлось работать в малознакомой компании. Что из этого получилось?","Опишите ситуацию, когда вашему другу или родственнику требовалась помощь. В чем она заключалась? Что вы сделали? Что из этого вышло?","Есть ведущие, а есть ведомые. Опишите случай, когда вы были ведомым. Что вы делали? Почему?","Расскажите о ситуации, когда на вас против вашей воли возложили ответственность. Что вы сделали? Почему?","Опишите случай, когда вы сыграли важную роль в школьной жизни. Что вы сделали? Почему?"];
+const $=s=>document.querySelector(s),app=$('#app'),MIN=250,MAX=1500,SEC=900;
+let db,sample,uid,me,essays=[],sessions=[],view='home',T=null,tick;
+const LS=(k,v)=>{try{if(v===undefined)return JSON.parse(localStorage.getItem(k));v===null?localStorage.removeItem(k):localStorage.setItem(k,JSON.stringify(v))}catch(e){return null}};
+const esc=s=>String(s??'').replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+const day=d=>new Date(d).toLocaleDateString('en-CA');
+const avg=a=>a.length?a.reduce((x,y)=>x+y,0)/a.length:0;
+const f1=n=>(Math.round(n*10)/10).toFixed(1);
+function streaks(){const ds=[...new Set(sessions.map(s=>s.day))].sort();let best=0,run=0,prev=null;for(const d of ds){run=prev&&(new Date(d)-new Date(prev))/864e5===1?run+1:1;best=Math.max(best,run);prev=d}
+const t=day(Date.now()),y=day(Date.now()-864e5);return{cur:ds.length&&(prev===t||prev===y)?run:0,best,doneToday:prev===t}}
+async function boot(){app.innerHTML='<main><h1>bluem</h1><p class="m">loading…</p></main>';
+ db=await claude.use('db');sample=await claude.use('sample');const u=await claude.use('user');
+ if(!db||!u){app.innerHTML='<main><h1>bluem</h1><p>Please sign in to claude.ai to use Bluem.</p></main>';return}
+ uid=await u.id();const p=await db.collection('data/users/'+uid).doc('profile').get();
+ if(p.exists){me=p.data().username;await load();go('home')}else login()}
+function login(err=''){app.innerHTML=`<main style="max-width:520px;padding-top:12vh"><h1>bluem</h1><p class="m" style="margin:18px 0">Write better essays in 15 minutes a day. Pick a username — nothing else needed.</p>
+<input id="un" placeholder="username" maxlength="24" autocomplete="off"><p class="m" style="color:#d33">${err}</p><button class="btn" onclick="reg()">Continue</button></main>`}
+async function reg(){try{await reg2()}catch(e){login('Error: '+esc(e&&e.message||e))}}
+async function reg2(){const n=$('#un').value.trim().toLowerCase();if(!/^[a-z0-9_.]{3,24}$/.test(n))return login('Use 3–24 letters, numbers, _ or .');
+ const r=db.doc('usernames/'+n),s=await r.get();
+ if(s.exists&&s.data().uid!==uid)return login('Username is already taken. Please choose another one.');
+ await r.set({uid});await db.collection('data/users/'+uid).doc('profile').set({username:n});me=n;await load();go('home')}
+async function load(){const all=(await db.collection('data/users/'+uid).get()).docs;
+ essays=all.filter(d=>d.id.startsWith('e_')).map(d=>d.data()).sort((a,b)=>b.ts-a.ts);
+ sessions=all.filter(d=>d.id.startsWith('s_')).map(d=>d.data())}
+function shell(h){const n=[['home','Home'],['trainer','Essay Trainer'],['essays','My Essays'],['progress','Progress'],['profile','Profile']];
+ app.innerHTML=`<nav><b>bluem<span style="color:var(--pk)">.</span></b><div>${n.map(x=>`<button class="${view===x[0]?'on':''}" onclick="go('${x[0]}')">${x[1]}</button>`).join('')}</div></nav><main>${h}</main>`}
+function go(v,a){clearInterval(tick);view=v;({home,trainer,essays:list,progress,profile,open:()=>openEssay(a)})[v]()}
+function home(){const s=streaks(),sc=essays.map(e=>e.scores?.overall).filter(Boolean);
+ shell(`<div class="hero"><h1>welcome<br>back, ${esc(me)}</h1><div class="vinyl"></div></div>
+ <div class="grid"><div class="card stat"><b>🔥 ${s.cur}</b><span>day streak</span></div><div class="card stat"><b>${essays.length}</b><span>essays written</span></div><div class="card stat"><b>${f1(avg(sc))}</b><span>average score /10</span></div><div class="card stat"><b>${f1(Math.max(0,...sc))}</b><span>best score /10</span></div></div>
+ <div style="text-align:center;margin:24px"><button class="btn" style="font-size:20px;padding:20px 44px" onclick="go('trainer')">Start Today's Training</button></div>
+ <div class="grid">${[['01','My Essays','essays'],['02','Progress','progress'],['03','AI Feedback','essays']].map(x=>`<div class="card" style="cursor:pointer" onclick="go('${x[2]}')"><span class="m">${x[0]}</span><h3 style="font-size:26px;margin-top:8px">${x[1]}</h3></div>`).join('')}</div>`)}
+function pick(){const rec=LS('recent')||[];let i,k=0;do{i=Math.floor(Math.random()*TOPICS.length)}while(rec.includes(i)&&k++<50);LS('recent',[i,...rec].slice(0,15));return i}
+function trainer(){const d=LS('draft_'+uid);
+ if(d&&d.sess){shell(`<h2>Continue your essay?</h2><p class="m">You have an unfinished training: essay ${d.n} of 3.</p><p><button class="btn" onclick="T=LS('draft_'+uid);resume()">Continue your essay</button> <button class="btn g" onclick="LS('draft_'+uid,null);trainer()">Start over</button></p>`);return}
+ shell(`<h2>Three essays.<br>Fifteen minutes each.</h2><p class="m" style="margin:16px 0">Write in English. ${MIN}–${MAX} characters. Topics are random.</p><button class="btn" onclick="startT()">Begin</button>`)}
+function startT(){T={sess:Date.now(),n:1,res:[],topic:pick(),t0:Date.now(),text:''};resume()}
+function resume(){const rem=()=>Math.max(0,SEC-Math.floor((Date.now()-T.t0)/1000));
+ shell(`<div class="row"><span class="tag">Essay ${T.n} of 3</span><b id="tm" style="font-size:34px;letter-spacing:-.04em">15:00</b><span id="ct" class="m">Characters: 0 / ${MAX}</span></div>
+ <div class="card" style="margin:14px 0"><span class="m">Topic</span><div style="font-size:20px;margin-top:4px">${TOPICS[T.topic]}</div></div>
+ <textarea id="ed" maxlength="${MAX}" placeholder="Start writing in English…" autofocus>${esc(T.text)}</textarea>
+ <div class="row" style="margin-top:14px"><span class="m" id="hint"></span><button class="btn" id="fin" onclick="finish()">Finish Essay</button></div>`);
+ const ed=$('#ed'),upd=()=>{T.text=ed.value;const n=ed.value.length,r=rem();$('#tm').textContent=String(Math.floor(r/60)).padStart(2,'0')+':'+String(r%60).padStart(2,'0');
+  $('#ct').textContent=`Characters: ${n} / ${MAX}`;$('#fin').disabled=n<MIN&&r>0;$('#hint').textContent=n>=MAX?'Limit reached — time to wrap up.':n<MIN?`${MIN-n} more characters to finish`:'';LS('draft_'+uid,T);if(r===0&&!T.busy)finish(true)};
+ ed.oninput=upd;upd();tick=setInterval(upd,500)}
+async function finish(auto){if(T.busy)return;T.busy=1;clearInterval(tick);const text=T.text,secs=Math.min(SEC,Math.round((Date.now()-T.t0)/1000));
+ shell(`<h2>Reading your essay…</h2><p class="m">Checking grammar, vocabulary, structure and content.</p>`);
+ let fb=null;try{fb=await sample.json(`You are a strict but kind English writing coach for a Russian teenager preparing an exchange-program essay. The topic (in Russian) is: "${TOPICS[T.topic]}"
+Essay (English): """${text}"""
+Return ONLY JSON: {"scores":{"grammar":n,"vocabulary":n,"structure":n,"content":n,"overall":n} (0-10, one decimal),"mistakes":[{"original":"exact quote","correction":"fixed","explanation":"simple, short explanation"}] (max 8, real errors only: tenses, articles, prepositions, word order, agreement),"vocabulary":"short notes on repetitive/unnatural words with natural alternatives","writing":"clarity, logic, structure, transitions, how well topic is covered","personal":"does the writer really answer the question with personal experience?","improved":"a lightly polished version of THEIR essay keeping their own story","tips":["2-4 concrete tips for next essay"]}
+Rules: never invent events or experiences for the writer; if it is too general, say 'Try adding a specific example from your own experience.' Do not rewrite the whole essay in mistakes.`,{cache:false})}catch(e){fb={scores:{overall:0},mistakes:[],vocabulary:'AI feedback was unavailable for this essay.',tips:[]}}
+ const id='e'+Date.now(),rec={id,ts:Date.now(),topic:TOPICS[T.topic],text,chars:text.length,secs,scores:fb.scores||{},fb};
+ await db.collection('data/users/'+uid).doc('e_'+id).set(rec);essays.unshift(rec);T.res.push(rec);
+ if(T.n<3){T={...T,n:T.n+1,topic:pick(),t0:Date.now(),text:'',busy:0};LS('draft_'+uid,T);showFb(rec,true)}else{
+  await db.collection('data/users/'+uid).doc('s_'+T.sess).set({day:day(Date.now()),ts:T.sess,ids:T.res.map(r=>r.id)});sessions.push({day:day(Date.now())});LS('draft_'+uid,null);done()}}
+function fbHtml(e){const f=e.fb||{},s=e.scores||{};
+ return `<div class="grid">${['grammar','vocabulary','structure','content','overall'].map(k=>`<div class="card stat"><span>${k}</span><b>${s[k]??'–'}</b><div class="bar"><i style="width:${(s[k]||0)*10}%"></i></div></div>`).join('')}</div>
+ <h3 style="margin:22px 0 8px">Mistakes</h3>${(f.mistakes||[]).map(m=>`<div class="err"><s>${esc(m.original)}</s><br><b>${esc(m.correction)}</b><br><span class="m">${esc(m.explanation)}</span></div>`).join('')||'<p class="m">No clear mistakes found. Nice.</p>'}
+ <div class="card"><b>Vocabulary</b><p>${esc(f.vocabulary)}</p><b>Writing</b><p>${esc(f.writing)}</p><b>Personal response</b><p>${esc(f.personal)}</p></div>
+ <h3 style="margin:22px 0 8px">AI Tips</h3><ul>${(f.tips||[]).map(t=>`<li>${esc(t)}</li>`).join('')}</ul>
+ ${f.improved?`<details class="card"><summary>Improved Version (not your original)</summary><div class="imp">${esc(f.improved)}</div></details>`:''}`}
+function showFb(r,next){shell(`<span class="tag">Essay ${T.n-(next?1:0)} of 3 · AI Feedback</span><h2 style="margin:12px 0">${esc(r.topic)}</h2>${fbHtml(r)}<p><button class="btn" onclick="resume()">Continue to Essay ${T.n}</button></p>`)}
+function done(){const s=streaks();shell(`<h1>training<br>complete 🎉</h1><p class="m" style="margin:14px 0">Average score: ${f1(avg(T.res.map(r=>r.scores.overall||0)))} / 10</p>${T.res.map((r,i)=>`<div class="card row"><span>Essay ${i+1}: ${esc(r.topic.slice(0,60))}…</span><b>${r.scores.overall??'–'}</b><button class="btn g" onclick="go('open','${r.id}')">Feedback</button></div>`).join('')}<button class="btn" onclick="go('home')">Back home</button>
+<div class="pop" onclick="this.remove()"><div><div style="font-size:64px">🔥</div><h2>${s.cur} day${s.cur>1?'s':''} in a row!</h2><p class="m">Keep going!</p></div></div>`)}
+function list(){shell(`<h2>My Essays</h2>${essays.map(e=>`<div class="card row" style="cursor:pointer" onclick="go('open','${e.id}')"><div><span class="m">${new Date(e.ts).toLocaleString()}</span><div>${esc(e.topic.slice(0,80))}</div></div><b style="font-size:28px">${e.scores?.overall??'–'}</b></div>`).join('')||'<p class="m">Nothing here yet. Start a training!</p>'}`)}
+function openEssay(id){const e=essays.find(x=>x.id===id);shell(`<button class="btn g" onclick="go('essays')">← My Essays</button><h2 style="margin:16px 0">${esc(e.topic)}</h2><p class="m">${new Date(e.ts).toLocaleString()} · ${e.chars} characters · ${Math.floor(e.secs/60)}m ${e.secs%60}s</p><h3 style="margin:18px 0 8px">Original Essay</h3><div class="card" style="white-space:pre-wrap">${esc(e.text)}</div>${fbHtml(e)}`)}
+let range=30;
+function progress(){const cut=Date.now()-range*864e5,a=essays.filter(e=>e.ts>cut&&e.scores?.overall).reverse();
+ const line=(k,c)=>{if(a.length<1)return'';const w=300,h=100,p=a.map((e,i)=>[a.length>1?i*w/(a.length-1):w/2,h-(e.scores[k]||0)*h/10]);return `<div class="card"><div class="row"><b>${k}</b><span class="m">${f1(avg(a.map(e=>e.scores[k]||0)))} avg</span></div><svg viewBox="-6 -6 312 112"><polyline fill="none" stroke="${c}" stroke-width="3" stroke-linejoin="round" points="${p.map(x=>x.join(',')).join(' ')}"/>${p.map(x=>`<circle cx="${x[0]}" cy="${x[1]}" r="4" fill="${c}"/>`).join('')}</svg></div>`};
+ const s=streaks();shell(`<div class="row"><h2>Progress</h2><div>${[7,30,90].map(d=>`<button class="btn ${d===range?'':'g'}" style="padding:8px 16px" onclick="range=${d};progress()">${d}d</button>`).join(' ')}</div></div>
+ <div class="grid"><div class="card stat"><b>${a.length}</b><span>essays written</span></div><div class="card stat"><b>🔥 ${s.cur}</b><span>current streak</span></div><div class="card stat"><b>${s.best}</b><span>best streak</span></div><div class="card stat"><b>${sessions.length}</b><span>training sessions</span></div></div>
+ ${a.length?['overall','grammar','vocabulary','structure'].map(k=>line(k,'#FF85BD')).join(''):'<p class="m">Write your first essay to see charts.</p>'}`)}
+function profile(){const s=streaks();shell(`<h2>${esc(me)}</h2><p class="m">Only you can see your essays. No real name or personal data is collected.</p><div class="card">Current streak: ${s.cur} · Best: ${s.best} · Sessions: ${sessions.length} · Essays: ${essays.length}</div>`)}
+boot().catch(e=>{app.innerHTML='<main><h1>bluem</h1><p>Something went wrong: '+esc(e&&e.message||e)+'</p></main>'});
+</script></body></html>
